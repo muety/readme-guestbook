@@ -21,8 +21,8 @@ const SECTION_KEY = 'guestbook'
 
 const 
     TPL_ENTRY_AUTHOR = [`<a href="{2}"><img src="{1}" height="30"/></a>`, ' '],
-    TPL_ENTRY_GUESTBOOK = [`**[{1}]({2}) wrote on {3}:** {4}`, '\n'],
-    TPL_COMBINED = `{1}\n\n**All guests:**\n\n{2}`,
+    TPL_ENTRY_GUESTBOOK = [`* **[{1}]({2}) wrote on {3}:** {4}`, '\n'],
+    TPL_COMBINED = `{1}\n\n**{2}\n\nDo you like my project or just want to say hi? Feel free to [post](https://github.com/{3}/{4}/issues/new?title=${TITLE_PREFIX}) to my guestbook!`,
     TPL_PLACEHOLDER = `Nothing here, yet. Be the first to [post something](https://github.com/{1}/{2}/issues/new?title=${TITLE_PREFIX}) to {3}'s guestbook!`
 
 async function getIssues(octokit, context, num) {
@@ -76,7 +76,7 @@ async function updateReadme(token, context, content) {
     })
 }
 
-function formatIssues(issues) {
+function formatIssues(issues, context) {
     const header = [...new Set(issues.map(e => TPL_ENTRY_AUTHOR[0]
         .replace('{1}', e.authorAvatar)
         .replace('{2}', `https://github.com/${e.author}`)))]
@@ -92,6 +92,8 @@ function formatIssues(issues) {
     return TPL_COMBINED
         .replace('{1}', header)
         .replace('{2}', body)
+        .replace('{3}', context.repo.owner)
+        .replace('{4}', context.repo.repo)
 }
 
 async function run() {
