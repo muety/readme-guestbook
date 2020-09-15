@@ -16,7 +16,7 @@ with:
     max_entries: 5
 ```
 
-Note: Issues need to have a title prfixed with `Guestbook:` to be considered
+Note: Issues need to have a title prfixed with `Guestbook` to be considered
 
 ## Development
 ### Setup

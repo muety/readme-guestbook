@@ -14,7 +14,7 @@ const core = __webpack_require__(186),
     Issue = __webpack_require__(313),
     ReadmeBox = __webpack_require__(64).ReadmeBox
 
-const TITLE_PREFIX = 'Guestbook:'
+const TITLE_PREFIX = 'Guestbook'
 const N_ISSUES = 10
 const N_CHARS = 140
 const SECTION_KEY = 'guestbook'
@@ -22,7 +22,7 @@ const SECTION_KEY = 'guestbook'
 const 
     TPL_ENTRY_AUTHOR = [`<a href="{2}"><img src="{1}" height="30"/></a>`, ' '],
     TPL_ENTRY_GUESTBOOK = [`* **[{1}]({2}) wrote on {3}:** {4}`, '\n'],
-    TPL_COMBINED = `{1}\n\n**{2}\n\nDo you like my project or just want to say hi? Feel free to [post](https://github.com/{3}/{4}/issues/new?title=${TITLE_PREFIX}) to my guestbook!`,
+    TPL_COMBINED = `{1}\n\n{2}\n\nDo you like my project or just want to say hi? Feel free to [post](https://github.com/{3}/{4}/issues/new?title=${TITLE_PREFIX}) to my guestbook!`,
     TPL_PLACEHOLDER = `Nothing here, yet. Be the first to [post something](https://github.com/{1}/{2}/issues/new?title=${TITLE_PREFIX}) to {3}'s guestbook!`
 
 async function getIssues(octokit, context, num) {
