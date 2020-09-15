@@ -1,6 +1,6 @@
 {
   "name": "readme-guestbook",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "A GitHub action to create a guestbook in your README from repository issues",
   "repository": {
     "type": "git",

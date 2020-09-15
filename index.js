@@ -97,7 +97,7 @@ async function run() {
 
     const issues = await getIssues(octokit, context, nIssues)
     const content = issues.length
-        ? formatIssues(issues)
+        ? formatIssues(issues, context)
         : TPL_PLACEHOLDER
             .replace('{1}', context.repo.owner)
             .replace('{2}', context.repo.repo)
