@@ -22,8 +22,8 @@ const SECTION_KEY = 'guestbook'
 const 
     TPL_ENTRY_AUTHOR = [`<a href="{2}"><img src="{1}" height="30"/></a>`, ' '],
     TPL_ENTRY_GUESTBOOK = [`**[{1}]({2}) wrote on {3}:** {4}`, '\n'],
-    TPL_COMBINED = `{1}\n---\n{2}`,
-    TPL_PLACEHOLDER = `Nothing here, yet. Be the first to [post something](https://github.com/{1}/{2}/issues/new?title=${TITLE_PREFIX}) to {1}'s guestbook!`
+    TPL_COMBINED = `{1}\n\n---\n\n{2}`,
+    TPL_PLACEHOLDER = `Nothing here, yet. Be the first to [post something](https://github.com/{1}/{2}/issues/new?title=${TITLE_PREFIX}) to {3}'s guestbook!`
 
 async function getIssues(octokit, context, num) {
     // Fetch issues
@@ -106,6 +106,7 @@ async function run() {
         : TPL_PLACEHOLDER
             .replace('{1}', context.repo.owner)
             .replace('{2}', context.repo.repo)
+            .replace('{3}', context.repo.owner)
 
     await updateReadme(token, context, content)
 }
