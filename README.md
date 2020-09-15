@@ -18,5 +18,16 @@ with:
 
 Note: Issues need to have a title prfixed with `Guestbook:` to be considered
 
+## Development
+### Setup
+```bash
+yarn
+```
+
+### Build
+```bash
+yarn build
+```
+
 ## License
 MIT

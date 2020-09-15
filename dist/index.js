@@ -7,23 +7,23 @@ module.exports =
 
 // https://developer.github.com/v4/explorer/
 // https://developer.github.com/v4/object/issue/
+// $ GITHUB_REPOSITORY=muety/test-repo node index.js
 
 const core = __webpack_require__(186),
     github = __webpack_require__(438),
-    Issue = __webpack_require__(904),
+    Issue = __webpack_require__(313),
     ReadmeBox = __webpack_require__(64).ReadmeBox
 
 const TITLE_PREFIX = 'Guestbook:'
 const N_ISSUES = 10
 const N_CHARS = 140
 const SECTION_KEY = 'guestbook'
-const PRE_ENTRY_TPL = `<a href="{2}"><img src="{1}" height="30"/></a>`
-const ENTRY_TPL = `
-**[{1}]({2}) wrote on {3}:** {4}
-`
-const NO_ENTRY_TPL = `
-Nothing here, yet. Be the first to [post something](https://github.com/{1}/{2}/issues/new?title=${TITLE_PREFIX}) to {1}'s guestbook!
-`
+
+const 
+    TPL_ENTRY_AUTHOR = [`<a href="{2}"><img src="{1}" height="30"/></a>`, ' '],
+    TPL_ENTRY_GUESTBOOK = [`**[{1}]({2}) wrote on {3}:** {4}`, '\n'],
+    TPL_COMBINED = `{1}\n---\n{2}`,
+    TPL_PLACEHOLDER = `Nothing here, yet. Be the first to [post something](https://github.com/{1}/{2}/issues/new?title=${TITLE_PREFIX}) to {1}'s guestbook!`
 
 async function getIssues(octokit, context, num) {
     // Fetch issues
@@ -77,32 +77,33 @@ async function updateReadme(token, context, content) {
 }
 
 function formatIssues(issues) {
-    const header = [...new Set(issues.map(e => PRE_ENTRY_TPL
-        .replace('{1}', e.authorAvatar)
-        .replace('{2}', `https://github.com/${e.author}`)))]
-        .join(' ')
-
-    const body = issues.map(e => ENTRY_TPL
+    const body = issues.map(e => TPL_ENTRY_GUESTBOOK[0]
         .replace('{1}', e.author)
         .replace('{2}', `https://github.com/${e.author}`)
         .replace('{3}', e.createdAt.toLocaleDateString('en-US'))
         .replace('{4}', e.text.substring(0, N_CHARS).split('\n').join(' ')))
-        .join('\n')
+        .join(TPL_ENTRY_GUESTBOOK[1])
 
-    return `${header}\n\n${body}`
+    const footer = [...new Set(issues.map(e => TPL_ENTRY_AUTHOR[0]
+        .replace('{1}', e.authorAvatar)
+        .replace('{2}', `https://github.com/${e.author}`)))]
+        .join(TPL_ENTRY_AUTHOR[1])
+
+    return TPL_COMBINED
+        .replace('{1}', body)
+        .replace('{2}', footer)
 }
 
 async function run() {
-    //const token = core.getInput('mtoken')
-    const token = 'e5b9a6eb2f4a0801db8388b2dbd96ba0bd9fb6e2'
-    const nIssues = core.getInput('num')
+    const token = core.getInput('token')
+    const nIssues = core.getInput('max_entries')
     const octokit = github.getOctokit(token)
     const context = github.context
 
     const issues = await getIssues(octokit, context, nIssues)
     const content = issues.length
         ? formatIssues(issues)
-        : NO_ENTRY_TPL
+        : TPL_PLACEHOLDER
             .replace('{1}', context.repo.owner)
             .replace('{2}', context.repo.repo)
 
@@ -113,7 +114,7 @@ run()
 
 /***/ }),
 
-/***/ 904:
+/***/ 313:
 /***/ ((module) => {
 
 class Issue {
@@ -2028,7 +2029,7 @@ exports.withCustomRequest = withCustomRequest;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 
-const VERSION = "2.3.3";
+const VERSION = "2.4.0";
 
 /**
  * Some “list” response that can be paginated have a different response structure
@@ -2352,8 +2353,15 @@ const Endpoints = {
     }]
   },
   codeScanning: {
-    getAlert: ["GET /repos/{owner}/{repo}/code-scanning/alerts/{alert_id}"],
-    listAlertsForRepo: ["GET /repos/{owner}/{repo}/code-scanning/alerts"]
+    getAlert: ["GET /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}", {}, {
+      renamedParameters: {
+        alert_id: "alert_number"
+      }
+    }],
+    listAlertsForRepo: ["GET /repos/{owner}/{repo}/code-scanning/alerts"],
+    listRecentAnalyses: ["GET /repos/{owner}/{repo}/code-scanning/analyses"],
+    updateAlert: ["PATCH /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}"],
+    uploadSarif: ["POST /repos/{owner}/{repo}/code-scanning/sarifs"]
   },
   codesOfConduct: {
     getAllCodesOfConduct: ["GET /codes_of_conduct", {
@@ -3208,7 +3216,7 @@ const Endpoints = {
   }
 };
 
-const VERSION = "4.1.4";
+const VERSION = "4.2.0";
 
 function endpointsToMethods(octokit, endpointsMap) {
   const newMethods = {};
@@ -3392,7 +3400,7 @@ var isPlainObject = __webpack_require__(287);
 var nodeFetch = _interopDefault(__webpack_require__(467));
 var requestError = __webpack_require__(537);
 
-const VERSION = "5.4.8";
+const VERSION = "5.4.9";
 
 function getBufferResponse(response) {
   return response.arrayBuffer();
