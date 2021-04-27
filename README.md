@@ -10,7 +10,7 @@ All you need to do is create a workflow file in your repository (under `.github/
 
 ### Example Usage
 ```yaml
-uses: muety/readme-guestbook@v1.0.0
+uses: muety/readme-guestbook@v1.0.9
 with:
     token: ${{ secrets.GITHUB_TOKEN }}
     max_entries: 5
