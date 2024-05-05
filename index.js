@@ -47,12 +47,14 @@ async function getIssues(octokit, context, num) {
     })
 
     const issues = result.repository.issues.edges
+        .map(e => e.node)    
+        .filter(e => e.title && e.bodyText && e.author && e.createdAt)
         .map(e => new Issue(
-            e.node.title,
-            e.node.bodyText,
-            e.node.author.login,
-            e.node.author.avatarUrl,
-            e.node.createdAt
+            e.title,
+            e.bodyText,
+            e.author.login,
+            e.author.avatarUrl,
+            e.createdAt
         ))
         .filter(e => !!e.text)
         .filter(e => e.title.indexOf(TITLE_PREFIX) === 0)
