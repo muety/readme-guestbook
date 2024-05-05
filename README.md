@@ -29,5 +29,10 @@ yarn
 yarn build
 ```
 
+### Running locally
+```bash
+GITHUB_REPOSITORY=muety/muety INPUT_TOKEN=ghp_notgonnatellyou INPUT_MAX_ENTRIES=10 node index.js
+```
+
 ## License
 MIT

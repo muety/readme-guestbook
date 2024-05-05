@@ -179,10 +179,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.10.2.tgz#9b47a2c8e4dabd4db73b57e750b24af689600514"
   integrity sha512-IzMhbDYCpv26pC2wboJ4MMOa9GKtjplXfcAqrMeNJpUUwpM/2ATt2w1JPUXwS6spu856TvKZL2AOmeU2rAxskw==
 
-"@vercel/ncc@^0.24.0":
-  version "0.24.1"
-  resolved "https://registry.yarnpkg.com/@vercel/ncc/-/ncc-0.24.1.tgz#3ea2932c85ba87f4de6fe550d60e1bf5c005985e"
-  integrity sha512-r9m7brz2hNmq5TF3sxrK4qR/FhXn44XIMglQUir4sT7Sh5GOaYXlMYikHFwJStf8rmQGTlvOoBXt4yHVonRG8A==
+"@vercel/ncc@^0.38.1":
+  version "0.38.1"
+  resolved "https://registry.yarnpkg.com/@vercel/ncc/-/ncc-0.38.1.tgz#13f08738111e1d9e8a22fd6141f3590e54d9a60e"
+  integrity "sha1-E/CHOBEeHZ6KIv1hQfNZDlTZpg4= sha512-IBBb+iI2NLu4VQn3Vwldyi2QwaXt5+hTyh58ggAMoCGE6DJmPvwL3KPBWcJl1m9LYPChBLE980Jw+CS4Wokqxw=="
 
 before-after-hook@^2.2.0:
   version "2.2.3"
