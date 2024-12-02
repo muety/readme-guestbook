@@ -36805,7 +36805,6 @@ const core = __nccwpck_require__(2186),
 
 const TITLE_PREFIX = 'Guestbook'
 const N_ISSUES = 10
-const BRANCH = 'master'
 const N_CHARS = 140
 const SECTION_KEY = 'guestbook'
 
@@ -36859,13 +36858,13 @@ async function getIssues(octokit, context, num) {
     return issues.slice(0, Math.min(issues.length, (num || N_ISSUES)))
 }
 
-async function updateReadme(token, context, content) {
+async function updateReadme(token, context, content, branch) {
     return await ReadmeBox.updateSection(content, {
         owner: context.repo.owner,
         repo: context.repo.repo,
         token: token,
         section: SECTION_KEY,
-        branch: BRANCH
+        branch: branch
     })
 }
 
@@ -36893,6 +36892,7 @@ async function run() {
     const token = core.getInput('token')
     const nIssues = core.getInput('max_entries')
     const octokit = github.getOctokit(token)
+    const branch = core.getInput('branch')
     const context = github.context
 
     const issues = await getIssues(octokit, context, nIssues)
@@ -36903,7 +36903,7 @@ async function run() {
             .replace('{2}', context.repo.repo)
             .replace('{3}', context.repo.owner)
 
-    await updateReadme(token, context, content)
+    await updateReadme(token, context, content, branch)
 }
 
 run()
