@@ -9,6 +9,7 @@ const core = require('@actions/core'),
 
 const TITLE_PREFIX = 'Guestbook'
 const N_ISSUES = 10
+const BRANCH = 'master'
 const N_CHARS = 140
 const SECTION_KEY = 'guestbook'
 
@@ -67,7 +68,8 @@ async function updateReadme(token, context, content) {
         owner: context.repo.owner,
         repo: context.repo.repo,
         token: token,
-        section: SECTION_KEY
+        section: SECTION_KEY,
+        branch: BRANCH
     })
 }
 
