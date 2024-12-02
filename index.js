@@ -62,12 +62,13 @@ async function getIssues(octokit, context, num) {
     return issues.slice(0, Math.min(issues.length, (num || N_ISSUES)))
 }
 
-async function updateReadme(token, context, content) {
+async function updateReadme(token, context, content, branch) {
     return await ReadmeBox.updateSection(content, {
         owner: context.repo.owner,
         repo: context.repo.repo,
         token: token,
-        section: SECTION_KEY
+        section: SECTION_KEY,
+        branch: branch
     })
 }
 
@@ -95,6 +96,7 @@ async function run() {
     const token = core.getInput('token')
     const nIssues = core.getInput('max_entries')
     const octokit = github.getOctokit(token)
+    const branch = core.getInput('branch')
     const context = github.context
 
     const issues = await getIssues(octokit, context, nIssues)
@@ -105,7 +107,7 @@ async function run() {
             .replace('{2}', context.repo.repo)
             .replace('{3}', context.repo.owner)
 
-    await updateReadme(token, context, content)
+    await updateReadme(token, context, content, branch)
 }
 
 run()
